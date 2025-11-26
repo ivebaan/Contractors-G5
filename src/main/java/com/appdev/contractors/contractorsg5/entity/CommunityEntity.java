@@ -1,4 +1,4 @@
-package com.appdev.contractors.aytonag5.entity;
+package com.appdev.contractors.contractorsg5.entity;
 import jakarta.persistence.*;
 
 @Entity

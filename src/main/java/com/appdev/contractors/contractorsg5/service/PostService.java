@@ -1,7 +1,7 @@
-package com.appdev.contractors.aytonag5.service;
+package com.appdev.contractors.contractorsg5.service;
 
-import com.appdev.contractors.aytonag5.entity.PostEntity;
-import com.appdev.contractors.aytonag5.repository.PostRepository;
+import com.appdev.contractors.contractorsg5.entity.PostEntity;
+import com.appdev.contractors.contractorsg5.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

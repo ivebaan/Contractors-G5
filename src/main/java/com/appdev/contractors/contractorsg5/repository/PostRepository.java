@@ -1,6 +1,6 @@
-package com.appdev.contractors.aytonag5.repository;
+package com.appdev.contractors.contractorsg5.repository;
 
-import com.appdev.contractors.aytonag5.entity.PostEntity;
+import com.appdev.contractors.contractorsg5.entity.PostEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

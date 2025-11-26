@@ -1,10 +1,10 @@
-package com.appdev.contractors.aytonag5.service;
+package com.appdev.contractors.contractorsg5.service;
 
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import com.appdev.contractors.aytonag5.entity.LeaderboardEntity;
-import com.appdev.contractors.aytonag5.repository.LeaderboardRepository;
+import com.appdev.contractors.contractorsg5.entity.LeaderboardEntity;
+import com.appdev.contractors.contractorsg5.repository.LeaderboardRepository;
 
 @Service
 public class LeaderboardService {

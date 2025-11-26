@@ -1,4 +1,4 @@
-package com.appdev.contractors.aytonag5.controller;
+package com.appdev.contractors.contractorsg5.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.appdev.contractors.aytonag5.entity.LeaderboardEntity;
-import com.appdev.contractors.aytonag5.service.LeaderboardService;
+import com.appdev.contractors.contractorsg5.entity.LeaderboardEntity;
+import com.appdev.contractors.contractorsg5.service.LeaderboardService;
 
 import java.util.List;
 

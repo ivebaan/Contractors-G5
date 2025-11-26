@@ -1,8 +1,8 @@
-package com.appdev.contractors.aytonag5.controller;
+package com.appdev.contractors.contractorsg5.controller;
 
 import org.springframework.web.bind.annotation.RestController;
-import com.appdev.contractors.aytonag5.entity.CommunityEntity;
-import com.appdev.contractors.aytonag5.service.CommunityService;
+import com.appdev.contractors.contractorsg5.entity.CommunityEntity;
+import com.appdev.contractors.contractorsg5.service.CommunityService;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
