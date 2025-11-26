@@ -1,7 +1,7 @@
-package com.appdev.contractors.aytonag5.controller;
+package com.appdev.contractors.contractorsg5.controller;
 
-import com.appdev.contractors.aytonag5.entity.CategoryEntity;
-import com.appdev.contractors.aytonag5.service.CategoryService;
+import com.appdev.contractors.contractorsg5.entity.CategoryEntity;
+import com.appdev.contractors.contractorsg5.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;

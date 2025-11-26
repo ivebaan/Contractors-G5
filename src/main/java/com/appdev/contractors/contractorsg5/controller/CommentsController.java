@@ -1,8 +1,8 @@
-package com.appdev.contractors.aytonag5.controller;
+package com.appdev.contractors.contractorsg5.controller;
 
 
-import com.appdev.contractors.aytonag5.entity.CommentsEntity;
-import com.appdev.contractors.aytonag5.service.CommentsService;
+import com.appdev.contractors.contractorsg5.entity.CommentsEntity;
+import com.appdev.contractors.contractorsg5.service.CommentsService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 

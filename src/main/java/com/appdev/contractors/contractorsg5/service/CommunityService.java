@@ -1,10 +1,10 @@
-package com.appdev.contractors.aytonag5.service;
+package com.appdev.contractors.contractorsg5.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import com.appdev.contractors.aytonag5.entity.CommunityEntity;
-import com.appdev.contractors.aytonag5.repository.CommunityRepository;
+import com.appdev.contractors.contractorsg5.entity.CommunityEntity;
+import com.appdev.contractors.contractorsg5.repository.CommunityRepository;
 
 
 

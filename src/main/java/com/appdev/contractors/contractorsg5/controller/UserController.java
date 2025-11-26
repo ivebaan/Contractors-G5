@@ -1,7 +1,7 @@
-package com.appdev.contractors.aytonag5.controller;
+package com.appdev.contractors.contractorsg5.controller;
 
-import com.appdev.contractors.aytonag5.entity.UserEntity;
-import com.appdev.contractors.aytonag5.service.UserService;
+import com.appdev.contractors.contractorsg5.entity.UserEntity;
+import com.appdev.contractors.contractorsg5.service.UserService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 

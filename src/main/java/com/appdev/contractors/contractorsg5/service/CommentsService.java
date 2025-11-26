@@ -1,7 +1,7 @@
-package com.appdev.contractors.aytonag5.service;
+package com.appdev.contractors.contractorsg5.service;
 
-import com.appdev.contractors.aytonag5.entity.CommentsEntity;
-import com.appdev.contractors.aytonag5.repository.CommentsRepository;
+import com.appdev.contractors.contractorsg5.entity.CommentsEntity;
+import com.appdev.contractors.contractorsg5.repository.CommentsRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
