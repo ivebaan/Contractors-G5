@@ -1,11 +1,9 @@
 package com.appdev.contractors.contractorsg5.controller;
 
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 import com.appdev.contractors.contractorsg5.entity.CommunityEntity;
 import com.appdev.contractors.contractorsg5.service.CommunityService;
-
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/community")
@@ -17,27 +15,38 @@ public class CommunityController {
         this.service = service;
     }
 
-    @PostMapping("/add")
-    public CommunityEntity addCommunity(@RequestBody CommunityEntity comm) {
+    // --- Create ---
+    @PostMapping
+    public CommunityEntity createCommunity(@RequestBody CommunityEntity comm) {
         return service.saveCommunity(comm);
     }
 
-    @GetMapping("/getAll")
-    public List<CommunityEntity> getCommunity() {
+    // --- Read all ---
+    @GetMapping
+    public List<CommunityEntity> getAllCommunities() {
         return service.getAllCommunity();
     }
 
-    @GetMapping("/get/{id}")
+    // --- Read by ID ---
+    @GetMapping("/{id}")
     public CommunityEntity getCommunityById(@PathVariable Long id) {
         return service.getCommunityById(id);
     }
 
-    @PutMapping("/update/{id}")
+    // --- Read by Name ---
+    @GetMapping("/name/{name}")
+    public CommunityEntity getCommunityByName(@PathVariable String name) {
+        return service.getCommunityByName(name);
+    }
+
+    // --- Update ---
+    @PutMapping("/{id}")
     public CommunityEntity updateCommunity(@PathVariable Long id, @RequestBody CommunityEntity comm) {
         return service.updateCommunity(id, comm);
     }
 
-    @DeleteMapping("/delete/{id}")
+    // --- Delete ---
+    @DeleteMapping("/{id}")
     public String deleteCommunity(@PathVariable Long id) {
         boolean deleted = service.deleteCommunity(id);
         return deleted ? "Deleted" : "Not Found";

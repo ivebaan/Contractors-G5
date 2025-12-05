@@ -28,7 +28,7 @@ public class CommentsService {
     public CommentsEntity updateComment(Long id, CommentsEntity newCommentData) {
         return commentsRepository.findById(id).map(comment -> {
             comment.setContent(newCommentData.getContent());
-            comment.setPostId(newCommentData.getPostId());
+            comment.setPost(newCommentData.getPost());
             comment.setDateCommented(newCommentData.getDateCommented());
             return commentsRepository.save(comment);
         }).orElse(null);

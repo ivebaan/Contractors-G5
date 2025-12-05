@@ -1,6 +1,7 @@
 package com.appdev.contractors.contractorsg5.entity;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "category")
@@ -8,32 +9,36 @@ public class CategoryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int categoryId;
+    private Long categoryId;
 
-    private String categoryName;
+    private String name;
     private String description;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<CommunityEntity> communities;
 
     public CategoryEntity() {}
 
-    public CategoryEntity(String categoryName, String description) {
-        this.categoryName = categoryName;
+    public CategoryEntity(String name, String description) {
+        this.name = name;
         this.description = description;
     }
 
-    public int getCategory_id() {
+    // --- Getters and Setters ---
+    public Long getCategoryId() {
         return categoryId;
     }
 
-    public void setCategory_id(int categoryId) {
+    public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
 
-    public String getCategory_name() {
-        return categoryName;
+    public String getName() {
+        return name;
     }
 
-    public void setCategory_name(String categoryName) {
-        this.categoryName = categoryName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -44,10 +49,11 @@ public class CategoryEntity {
         this.description = description;
     }
 
-    public String viewCategoryInfo() {
-        return "Category Info:\n" +
-               "ID: " + categoryId + "\n" +
-               "Name: " + categoryName + "\n" +
-               "Description: " + description;
+    public List<CommunityEntity> getCommunities() {
+        return communities;
+    }
+
+    public void setCommunities(List<CommunityEntity> communities) {
+        this.communities = communities;
     }
 }

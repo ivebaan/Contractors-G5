@@ -17,13 +17,13 @@ public class CommentsController {
     }
 
     // CREATE
-    @PostMapping
+    @PostMapping("/create")
     public CommentsEntity createComment(@RequestBody CommentsEntity comment) {
         return commentsService.createComment(comment);
     }
 
     // READ
-    @GetMapping
+    @GetMapping("/getAll")
     public List<CommentsEntity> getAllComments() {
         return commentsService.getAllComments();
     }
