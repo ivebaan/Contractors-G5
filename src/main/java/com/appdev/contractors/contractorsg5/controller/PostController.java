@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping("/posts")
 public class PostController {
 
     @Autowired
@@ -18,7 +18,7 @@ public class PostController {
         return postService.savePost(post);
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     public List<PostEntity> getAllPosts() {
         return postService.getAllPosts();
     }

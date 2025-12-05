@@ -16,13 +16,13 @@ public class UserController {
     }
 
     // CREATE
-    @PostMapping
+    @PostMapping("/create")
     public UserEntity createUser(@RequestBody UserEntity user) {
         return userService.createUser(user);
     }
 
     // READ
-    @GetMapping
+    @GetMapping("/getAll")
     public List<UserEntity> getAllUsers() {
         return userService.getAllUsers();
     }

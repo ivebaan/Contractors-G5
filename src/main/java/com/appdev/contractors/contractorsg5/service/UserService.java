@@ -27,10 +27,9 @@ public class UserService {
     // UPDATE
     public UserEntity updateUser(Long id, UserEntity newUserData) {
         return userRepository.findById(id).map(user -> {
-            user.setFullName(newUserData.getFullName());
-            user.setInstitutionalEmail(newUserData.getInstitutionalEmail());
+            user.setDisplayName(newUserData.getDisplayName());
+            user.setEmail(newUserData.getEmail());
             user.setPassword(newUserData.getPassword());
-            user.setRole(newUserData.getRole());
             return userRepository.save(user);
         }).orElse(null);
     }

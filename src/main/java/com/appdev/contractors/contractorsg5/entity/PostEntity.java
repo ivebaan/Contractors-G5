@@ -1,78 +1,78 @@
 package com.appdev.contractors.contractorsg5.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
+import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "posts")
 public class PostEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int post_id;
+    private int postId;
 
-    private int user_id;
+    private int userId;
     private String title;
     private String content;
-    private LocalDate date_posted;
+    private LocalDate datePosted;
+    private String author;
+    private boolean verified;
+    private boolean favorite;
+    private int votes;
+    private String comments;
 
     public PostEntity() {}
 
-    public PostEntity(int user_id, String title, String content, LocalDate date_posted) {
-        this.user_id = user_id;
+    public PostEntity(int userId, String title, String content, LocalDate datePosted, String author,
+                      boolean verified, boolean favorite, int votes, String comments) {
+        this.userId = userId;
         this.title = title;
         this.content = content;
-        this.date_posted = date_posted;
+        this.datePosted = datePosted;
+        this.author = author;
+        this.verified = verified;
+        this.favorite = favorite;
+        this.votes = votes;
+        this.comments = comments;
     }
 
-    public int getPost_id() {
-        return post_id;
-    }
+    // --- Getters and Setters ---
+    public int getPostId() { return postId; }
+    public void setPostId(int postId) { this.postId = postId; }
 
-    public void setPost_id(int post_id) {
-        this.post_id = post_id;
-    }
+    public int getUserId() { return userId; }
+    public void setUserId(int userId) { this.userId = userId; }
 
-    public int getUser_id() {
-        return user_id;
-    }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
+    public String getContent() { return content; }
+    public void setContent(String content) { this.content = content; }
 
-    public String getTitle() {
-        return title;
-    }
+    public LocalDate getDatePosted() { return datePosted; }
+    public void setDatePosted(LocalDate datePosted) { this.datePosted = datePosted; }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public String getAuthor() { return author; }
+    public void setAuthor(String author) { this.author = author; }
 
-    public String getContent() {
-        return content;
-    }
+    public boolean isVerified() { return verified; }
+    public void setVerified(boolean verified) { this.verified = verified; }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+    public boolean isFavorite() { return favorite; }
+    public void setFavorite(boolean favorite) { this.favorite = favorite; }
 
-    public LocalDate getDate_posted() {
-        return date_posted;
-    }
+    public int getVotes() { return votes; }
+    public void setVotes(int votes) { this.votes = votes; }
 
-    public void setDate_posted(LocalDate date_posted) {
-        this.date_posted = date_posted;
-    }
+    public String getComments() { return comments; }
+    public void setComments(String comments) { this.comments = comments; }
 
-    public void createPost(int user_id, String title, String content) {
-        this.user_id = user_id;
+    // --- Helper Methods ---
+    public void createPost(int userId, String title, String content) {
+        this.userId = userId;
         this.title = title;
         this.content = content;
-        this.date_posted = LocalDate.now();
+        this.datePosted = LocalDate.now();
     }
 
     public void editPost(String newTitle, String newContent) {
@@ -87,10 +87,10 @@ public class PostEntity {
 
     public String viewPost() {
         return "Post Info:\n" +
-               "Post ID: " + post_id + "\n" +
-               "User ID: " + user_id + "\n" +
-               "Title: " + title + "\n" +
-               "Content: " + content + "\n" +
-               "Date Posted: " + date_posted + "\n";
+                "Post ID: " + postId + "\n" +
+                "User ID: " + userId + "\n" +
+                "Title: " + title + "\n" +
+                "Content: " + content + "\n" +
+                "Date Posted: " + datePosted + "\n";
     }
 }

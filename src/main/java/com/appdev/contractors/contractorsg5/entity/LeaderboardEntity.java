@@ -12,15 +12,15 @@ public class LeaderboardEntity {
 
     private int userId;
     private int points;
-    private int user_rank;
+    private int userRank;
     private String lastUpdated;
 
     public LeaderboardEntity(){}
 
-    public LeaderboardEntity(int userId, int points, int user_rank, String lastUpdated){
+    public LeaderboardEntity(int userId, int points, int userRank, String lastUpdated){
       this.userId = userId;
       this.points = points;
-      this.user_rank = user_rank;
+      this.userRank = userRank;
       this.lastUpdated = lastUpdated;
     }
 
@@ -45,11 +45,11 @@ public class LeaderboardEntity {
         return points;
     }
     
-    public void setRank(int user_rank){
-        this.user_rank = user_rank;
+    public void setRank(int userRank){
+        this.userRank = userRank;
     }
     public int getRank(){
-        return user_rank;
+        return userRank;
     }
 
     public void setLastUpdated(String lastUpdated){
