@@ -12,19 +12,41 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
+    // --- CREATE ---
     public PostEntity savePost(PostEntity post) {
         return postRepository.save(post);
     }
 
+    // --- READ ALL ---
     public List<PostEntity> getAllPosts() {
         return postRepository.findAll();
     }
 
-    public PostEntity getPostById(int id) {
-        return postRepository.findById(id).orElse(null);
+    // --- READ BY ID ---
+    public PostEntity getPostById(Long id) {
+        return postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Post with id " + id + " not found"));
     }
 
-    public void deletePost(int id) {
+    // --- UPDATE ---
+    public PostEntity updatePost(Long id, PostEntity updatedPost) {
+        PostEntity existingPost = getPostById(id);
+
+        existingPost.setTitle(updatedPost.getTitle());
+        existingPost.setContent(updatedPost.getContent());
+        existingPost.setCreatedBy(updatedPost.getCreatedBy());
+        existingPost.setCommunity(updatedPost.getCommunity());
+        existingPost.setVotes(updatedPost.getVotes());
+        existingPost.setIsFavorite(updatedPost.getIsFavorite());
+
+        return postRepository.save(existingPost);
+    }
+
+    // --- DELETE ---
+    public void deletePost(Long id) {
+        if (!postRepository.existsById(id)) {
+            throw new IllegalArgumentException("Post with id " + id + " not found");
+        }
         postRepository.deleteById(id);
     }
 }

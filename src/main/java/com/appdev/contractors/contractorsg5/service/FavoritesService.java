@@ -37,8 +37,8 @@ public class FavoritesService {
     // Update
     public FavoritesEntity updateFavorite(Long id, FavoritesEntity updated) {
         FavoritesEntity existing = getFavoriteById(id);
-        existing.setUser_id(updated.getUser_id());
-        existing.setPost_id(updated.getPost_id());
+        existing.setUser(updated.getUser());
+        existing.setPost(updated.getPost());
         existing.setDateAdded(updated.getDateAdded());
         return repo.save(existing);
     }
@@ -54,7 +54,7 @@ public class FavoritesService {
     // List by User ID
     public List<FavoritesEntity> getFavoritesByUserId(int userId) {
         return repo.findAll().stream()
-                .filter(fav -> fav.getUser_id() == userId)
+                .filter(fav -> fav.getUser().getUserId() == userId)
                 .toList();
     }
 }

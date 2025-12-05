@@ -1,6 +1,7 @@
 package com.appdev.contractors.contractorsg5.entity;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,29 +12,35 @@ public class CommentsEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
 
-    private Long postId;
     private String content;
-    private LocalDateTime dateCommented = LocalDateTime.now();
+
+    private LocalDateTime dateCommented;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    // Getters and Setters
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private PostEntity post;
+
+    // --- Constructors ---
+    public CommentsEntity() {}
+
+    public CommentsEntity(UserEntity user, PostEntity post, String content) {
+        this.user = user;
+        this.post = post;
+        this.content = content;
+        this.dateCommented = LocalDateTime.now();
+    }
+
+    // --- Getters and Setters ---
     public Long getCommentId() {
         return commentId;
     }
 
     public void setCommentId(Long commentId) {
         this.commentId = commentId;
-    }
-
-    public Long getPostId() {
-        return postId;
-    }
-
-    public void setPostId(Long postId) {
-        this.postId = postId;
     }
 
     public String getContent() {
@@ -59,5 +66,14 @@ public class CommentsEntity {
     public void setUser(UserEntity user) {
         this.user = user;
     }
-}
 
+    public PostEntity getPost() {
+        return post;
+    }
+
+    public void setPost(PostEntity post) {
+        this.post = post;
+    }
+
+
+}

@@ -14,10 +14,9 @@ public class UserEntity {
     private String displayName;
     private String email;
     private String password;
-    // admin or ordinary user
 
-    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    // private List<CommentsEntity> comments;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<CommentsEntity> comments;
 
     // Getters and Setters
     public Long getUserId() {
@@ -52,11 +51,11 @@ public class UserEntity {
         this.password = password;
     }
 
-    // public List<CommentsEntity> getComments() {
-    //     return comments;
-    // }
+    public List<CommentsEntity> getComments() {
+       return comments;
+     }
 
-    // public void setComments(List<CommentsEntity> comments) {
-    //     this.comments = comments;
-    // }
+    public void setComments(List<CommentsEntity> comments) {
+        this.comments = comments;
+    }
 }

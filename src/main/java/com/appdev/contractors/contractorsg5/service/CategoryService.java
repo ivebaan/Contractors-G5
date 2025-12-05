@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+
+
 @Service
 public class CategoryService {
 
@@ -20,11 +22,20 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public CategoryEntity getCategoryById(int id) {
+    public CategoryEntity getCategoryById(Long id) {
         return categoryRepository.findById(id).orElse(null);
     }
 
-    public void deleteCategory(int id) {
+    public CategoryEntity updateCategory(Long id, CategoryEntity newCategory) {
+        return categoryRepository.findById(id).map(category -> {
+            category.setName(newCategory.getName());
+            category.setDescription(newCategory.getDescription());
+            return categoryRepository.save(category);
+        }).orElse(null);
+    }
+
+
+    public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
     }
 }

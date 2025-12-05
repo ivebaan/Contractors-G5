@@ -18,18 +18,22 @@ public class CategoryController {
         return categoryService.saveCategory(category);
     }
 
-    @GetMapping("getAll")
+    @GetMapping("/getAll")
     public List<CategoryEntity> getAllCategories() {
         return categoryService.getAllCategories();
     }
 
     @GetMapping("/{id}")
-    public CategoryEntity getCategoryById(@PathVariable int id) {
+    public CategoryEntity getCategoryById(@PathVariable Long id) {
         return categoryService.getCategoryById(id);
+    }
+    @PutMapping("/update/{id}")
+    public CategoryEntity updateCategory(@PathVariable Long id, @RequestBody CategoryEntity category) {
+        return categoryService.updateCategory(id, category);
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteCategory(@PathVariable int id) {
+    public String deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
         return "Category with ID " + id + " has been deleted.";
     }

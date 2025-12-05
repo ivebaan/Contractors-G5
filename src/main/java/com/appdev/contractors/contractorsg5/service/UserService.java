@@ -19,6 +19,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    // READ by ID
+public UserEntity getById(Long id) {
+    return userRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
+}
+
     // READ
     public List<UserEntity> getAllUsers() {
         return userRepository.findAll();

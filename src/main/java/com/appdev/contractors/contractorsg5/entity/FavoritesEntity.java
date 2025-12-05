@@ -1,54 +1,67 @@
 package com.appdev.contractors.contractorsg5.entity;
+
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "favorites")
-public class FavoritesEntity{
+public class FavoritesEntity {
 
-       @Id
-       @GeneratedValue(strategy = GenerationType.IDENTITY)
-       private Long favoriteId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long favoriteId;
 
-       private int userId;
-       private int postId;
-       private String dateAdded;
+    private LocalDateTime dateAdded;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
-       public FavoritesEntity(){}
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private PostEntity post;
 
-       public FavoritesEntity(int userId, int postId, String dateAdded){
-        this.userId = userId;
-        this.postId = postId;
-        this.dateAdded = dateAdded;
-       }
+    // --- Constructors ---
+    public FavoritesEntity() {
+        this.dateAdded = LocalDateTime.now();
+    }
 
-       public void setFavoriteId(Long favoriteId){
-        this.favoriteId = favoriteId;
-       }
+    public FavoritesEntity(UserEntity user, PostEntity post) {
+        this.user = user;
+        this.post = post;
+        this.dateAdded = LocalDateTime.now();
+    }
 
-       public Long getFavoriteId(){
+    // --- Getters and Setters ---
+    public Long getFavoriteId() {
         return favoriteId;
-       }
+    }
 
-       public void setUser_id(int userId){
-        this.userId = userId;
-       }
-       public int getUser_id(){
-        return userId;
-       }
+    public void setFavoriteId(Long favoriteId) {
+        this.favoriteId = favoriteId;
+    }
 
-       public void setPost_id(int postId){
-        this.postId = postId;
-       }
-       
-       public int getPost_id(){
-        return postId;
-       }
-
-       public void setDateAdded(String dateAdded){
-        this.dateAdded = dateAdded;
-       }
-       public String getDateAdded(){
+    public LocalDateTime getDateAdded() {
         return dateAdded;
-       }
+    }
+
+    public void setDateAdded(LocalDateTime dateAdded) {
+        this.dateAdded = dateAdded;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public PostEntity getPost() {
+        return post;
+    }
+
+    public void setPost(PostEntity post) {
+        this.post = post;
+    }
 }

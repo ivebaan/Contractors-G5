@@ -1,96 +1,114 @@
 package com.appdev.contractors.contractorsg5.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "posts")
+@Table(name = "post")
 public class PostEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int postId;
+    private Long postId;
 
-    private int userId;
     private String title;
     private String content;
-    private LocalDate datePosted;
-    private String author;
-    private boolean verified;
-    private boolean favorite;
+    private LocalDateTime dateCreated;
+
     private int votes;
-    private String comments;
+    private boolean isFavorite;
 
-    public PostEntity() {}
+    @ManyToOne
+    @JoinColumn(name = "created_by", nullable = false)
+    private UserEntity createdBy;
 
-    public PostEntity(int userId, String title, String content, LocalDate datePosted, String author,
-                      boolean verified, boolean favorite, int votes, String comments) {
-        this.userId = userId;
+    @ManyToOne
+    @JoinColumn(name = "community_id", nullable = false)
+    private CommunityEntity community;
+
+    // --- Constructors ---
+    public PostEntity() {
+    }
+
+    public PostEntity(
+            String title,
+            String content,
+            UserEntity createdBy,
+            CommunityEntity community,
+            int votes,
+            boolean isFavorite
+    ) {
         this.title = title;
         this.content = content;
-        this.datePosted = datePosted;
-        this.author = author;
-        this.verified = verified;
-        this.favorite = favorite;
+        this.createdBy = createdBy;
+        this.community = community;
         this.votes = votes;
-        this.comments = comments;
+        this.isFavorite = isFavorite;
+        this.dateCreated = LocalDateTime.now();
     }
 
-    // --- Getters and Setters ---
-    public int getPostId() { return postId; }
-    public void setPostId(int postId) { this.postId = postId; }
+    // --- Getters & Setters ---
+    public Long getPostId() {
+        return postId;
+    }
 
-    public int getUserId() { return userId; }
-    public void setUserId(int userId) { this.userId = userId; }
+    public void setPostId(Long postId) {
+        this.postId = postId;
+    }
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public String getTitle() {
+        return title;
+    }
 
-    public String getContent() { return content; }
-    public void setContent(String content) { this.content = content; }
-
-    public LocalDate getDatePosted() { return datePosted; }
-    public void setDatePosted(LocalDate datePosted) { this.datePosted = datePosted; }
-
-    public String getAuthor() { return author; }
-    public void setAuthor(String author) { this.author = author; }
-
-    public boolean isVerified() { return verified; }
-    public void setVerified(boolean verified) { this.verified = verified; }
-
-    public boolean isFavorite() { return favorite; }
-    public void setFavorite(boolean favorite) { this.favorite = favorite; }
-
-    public int getVotes() { return votes; }
-    public void setVotes(int votes) { this.votes = votes; }
-
-    public String getComments() { return comments; }
-    public void setComments(String comments) { this.comments = comments; }
-
-    // --- Helper Methods ---
-    public void createPost(int userId, String title, String content) {
-        this.userId = userId;
+    public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
         this.content = content;
-        this.datePosted = LocalDate.now();
     }
 
-    public void editPost(String newTitle, String newContent) {
-        this.title = newTitle;
-        this.content = newContent;
+    public LocalDateTime getDateCreated() {
+        return dateCreated;
     }
 
-    public void deletePost() {
-        this.title = null;
-        this.content = null;
+    public void setDateCreated(LocalDateTime dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
-    public String viewPost() {
-        return "Post Info:\n" +
-                "Post ID: " + postId + "\n" +
-                "User ID: " + userId + "\n" +
-                "Title: " + title + "\n" +
-                "Content: " + content + "\n" +
-                "Date Posted: " + datePosted + "\n";
+    public int getVotes() {
+        return votes;
+    }
+
+    public void setVotes(int votes) {
+        this.votes = votes;
+    }
+
+    public boolean getIsFavorite() {
+        return isFavorite;
+    }
+
+    public void setIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
+
+    public UserEntity getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(UserEntity createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public CommunityEntity getCommunity() {
+        return community;
+    }
+
+    public void setCommunity(CommunityEntity community) {
+        this.community = community;
     }
 }
