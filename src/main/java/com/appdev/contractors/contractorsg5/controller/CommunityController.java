@@ -16,13 +16,13 @@ public class CommunityController {
     }
 
     // --- Create ---
-    @PostMapping
+    @PostMapping("/create")
     public CommunityEntity createCommunity(@RequestBody CommunityEntity comm) {
         return service.saveCommunity(comm);
     }
 
     // --- Read all ---
-    @GetMapping
+    @GetMapping("/getAll")
     public List<CommunityEntity> getAllCommunities() {
         return service.getAllCommunity();
     }
