@@ -11,13 +11,13 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    private String fullName;
-    private String institutionalEmail;
+    private String displayName;
+    private String email;
     private String password;
-    private String role; // admin or ordinary user
+    // admin or ordinary user
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<CommentsEntity> comments;
+    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    // private List<CommentsEntity> comments;
 
     // Getters and Setters
     public Long getUserId() {
@@ -28,20 +28,20 @@ public class UserEntity {
         this.userId = userId;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
-    public String getInstitutionalEmail() {
-        return institutionalEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setInstitutionalEmail(String institutionalEmail) {
-        this.institutionalEmail = institutionalEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -52,19 +52,11 @@ public class UserEntity {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
-    }
+    // public List<CommentsEntity> getComments() {
+    //     return comments;
+    // }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public List<CommentsEntity> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<CommentsEntity> comments) {
-        this.comments = comments;
-    }
+    // public void setComments(List<CommentsEntity> comments) {
+    //     this.comments = comments;
+    // }
 }

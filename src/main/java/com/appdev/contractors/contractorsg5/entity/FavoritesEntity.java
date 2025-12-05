@@ -9,16 +9,16 @@ public class FavoritesEntity{
        @GeneratedValue(strategy = GenerationType.IDENTITY)
        private Long favoriteId;
 
-       private int user_id;
-       private int post_id;
+       private int userId;
+       private int postId;
        private String dateAdded;
 
 
        public FavoritesEntity(){}
 
-       public FavoritesEntity(int user_id, int post_id, String dateAdded){
-        this.user_id = user_id;
-        this.post_id = post_id;
+       public FavoritesEntity(int userId, int postId, String dateAdded){
+        this.userId = userId;
+        this.postId = postId;
         this.dateAdded = dateAdded;
        }
 
@@ -30,19 +30,19 @@ public class FavoritesEntity{
         return favoriteId;
        }
 
-       public void setUser_id(int user_id){
-        this.user_id = user_id;
+       public void setUser_id(int userId){
+        this.userId = userId;
        }
        public int getUser_id(){
-        return user_id;
+        return userId;
        }
 
-       public void setPost_id(int post_id){
-        this.post_id = post_id;
+       public void setPost_id(int postId){
+        this.postId = postId;
        }
        
        public int getPost_id(){
-        return post_id;
+        return postId;
        }
 
        public void setDateAdded(String dateAdded){

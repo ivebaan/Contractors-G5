@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/categories")
+@RequestMapping("/categories")
 public class CategoryController {
 
     @Autowired
@@ -18,7 +18,7 @@ public class CategoryController {
         return categoryService.saveCategory(category);
     }
 
-    @GetMapping
+    @GetMapping("getAll")
     public List<CategoryEntity> getAllCategories() {
         return categoryService.getAllCategories();
     }
