@@ -17,6 +17,10 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<CommentsEntity> comments;
+    
+    // One user can join many communities through the UserCommunityEntity
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<UserCommunityEntity> userCommunities;
 
     // Getters and Setters
     public Long getUserId() {
@@ -57,5 +61,13 @@ public class UserEntity {
 
     public void setComments(List<CommentsEntity> comments) {
         this.comments = comments;
+    }
+
+    public List<UserCommunityEntity> getUserCommunities() {
+        return userCommunities;
+    }
+
+    public void setUserCommunities(List<UserCommunityEntity> userCommunities) {
+        this.userCommunities = userCommunities;
     }
 }
