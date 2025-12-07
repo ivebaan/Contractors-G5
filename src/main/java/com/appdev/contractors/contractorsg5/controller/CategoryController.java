@@ -13,12 +13,12 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @PostMapping("/create")
+    @PostMapping
     public CategoryEntity createCategory(@RequestBody CategoryEntity category) {
         return categoryService.saveCategory(category);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     public List<CategoryEntity> getAllCategories() {
         return categoryService.getAllCategories();
     }
