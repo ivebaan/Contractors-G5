@@ -16,12 +16,12 @@ public class FavoritesController {
         this.service = service;
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public FavoritesEntity addFavorite(@RequestBody FavoritesEntity fav) {
         return service.saveFavorite(fav);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     public List<FavoritesEntity> getFavorites() {
         return service.getAllFavorites();
     }

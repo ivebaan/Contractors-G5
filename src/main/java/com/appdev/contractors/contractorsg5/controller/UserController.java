@@ -7,6 +7,9 @@ import com.appdev.contractors.contractorsg5.service.UserService;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/users")
@@ -22,16 +25,17 @@ public class UserController {
     }
 
     // CREATE
-    @PostMapping("/create")
+    @PostMapping
     public UserEntity createUser(@RequestBody UserEntity user) {
         return userService.createUser(user);
     }
-
+    
     // READ
-    @GetMapping("/getAll")
+    @GetMapping
     public List<UserEntity> getAllUsers() {
         return userService.getAllUsers();
     }
+    
 
     // UPDATE
     @PutMapping("/{id}")

@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
-@CrossOrigin(origins = "http://localhost:5173")
 public class PostController {
 
     @Autowired
@@ -26,7 +25,7 @@ public class PostController {
     private CommunityService communityService;
 
     // --- CREATE POST ---
-    @PostMapping("/create")
+    @PostMapping
     public PostEntity createPost(@RequestBody PostCreateDTO dto) {
 
         UserEntity user = userService.getById(dto.getUserId());
