@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "post")
+@Table(name = "posts")
 public class PostEntity {
 
     @Id
@@ -16,7 +16,9 @@ public class PostEntity {
     private LocalDateTime dateCreated;
 
     private int votes;
+    @Column(name = "favorite", nullable = false)
     private boolean isFavorite;
+
 
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)

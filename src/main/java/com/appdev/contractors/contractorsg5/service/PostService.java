@@ -65,42 +65,48 @@ public class PostService {
     // --- DELETE ---
     @Transactional
     public void deletePost(Long postId) {
-    PostEntity post = getPostById(postId); // throws if not found
-
-    voteRepository.deleteByPost(post);
-    commentsRepository.deleteByPost(post);
-    favoritesRepository.deleteByPost(post);
-
-    postRepository.delete(post);
-}
-
+        PostEntity post = getPostById(postId); // throws if not found
+        voteRepository.deleteByPost(post);
+        commentsRepository.deleteByPost(post);
+        favoritesRepository.deleteByPost(post);
+        postRepository.delete(post);
+    }
 
     // --- VOTE ---
+    @Transactional
     public PostEntity votePost(Long postId, Long userId, String type) {
-        PostEntity post = getPostById(postId);
-        UserEntity user = userService.getById(userId);
+    PostEntity post = getPostById(postId);
+    UserEntity user = userService.getById(userId);
 
-        VoteEntity vote = voteRepository.findByPostAndUser(post, user).orElse(new VoteEntity());
-        boolean isNewVote = vote.getId() == null;
+    // Find existing vote for user and post
+    VoteEntity vote = voteRepository.findByPostAndUser(post, user).orElse(null);
 
-        if (!isNewVote) {
-            if (vote.getType().equals(type)) {
-                voteRepository.delete(vote); // unvote
-            } else {
-                vote.setType(type);
-                voteRepository.save(vote); // change vote
-            }
+    if (vote != null) {
+        // If vote exists, update or remove it
+        if (vote.getType().equals(type)) {
+            // Same vote again, remove it (unvote)
+            voteRepository.delete(vote);
         } else {
-            vote.setPost(post);
-            vote.setUser(user);
+            // Changing vote from "up" to "down" or vice versa
             vote.setType(type);
             voteRepository.save(vote);
         }
-
-        long upVotes = voteRepository.countByPostAndType(post, "up");
-        long downVotes = voteRepository.countByPostAndType(post, "down");
-        post.setVotes((int)(upVotes - downVotes));
-
-        return postRepository.save(post);
+    } else {
+        // New vote (user hasn't voted yet)
+        vote = new VoteEntity();
+        vote.setPost(post);
+        vote.setUser(user);
+        vote.setType(type);
+        voteRepository.save(vote);
     }
+
+    // Update the post's votes count (upvotes - downvotes)
+    long upVotes = voteRepository.countByPostAndType(post, "up");
+    long downVotes = voteRepository.countByPostAndType(post, "down");
+    post.setVotes((int)(upVotes - downVotes));
+
+    return postRepository.save(post);
 }
+
+}
+
