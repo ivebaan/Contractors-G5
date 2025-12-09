@@ -5,9 +5,9 @@ import com.appdev.contractors.contractorsg5.entity.PostEntity;
 import com.appdev.contractors.contractorsg5.entity.UserEntity;
 import com.appdev.contractors.contractorsg5.repository.FavoritesRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FavoritesService {
@@ -22,26 +22,28 @@ public class FavoritesService {
         this.postService = postService;
     }
 
-    // --- Add favorite
+    // --- Add favorite using IDs ---
+    @Transactional
     public FavoritesEntity saveFavorite(Long userId, Long postId) {
-    UserEntity user = userService.getById(userId);
-    PostEntity post = postService.getPostById(postId);
-
-    if (user == null || post == null) {
-        throw new RuntimeException("User or Post not found");
+        UserEntity user = userService.getById(userId);
+        PostEntity post = postService.getPostById(postId);
+        return saveFavorite(user, post);
     }
 
-    Optional<FavoritesEntity> existing = repo.findAll().stream()
-            .filter(f -> f.getUser().getUserId().equals(userId) &&
-                         f.getPost().getPostId().equals(postId))
-            .findFirst();
+    // --- Add favorite using entity objects ---
+    @Transactional
+    public FavoritesEntity saveFavorite(UserEntity user, PostEntity post) {
+        if (user == null || post == null) {
+            throw new RuntimeException("User or Post cannot be null");
+        }
 
-    if (existing.isPresent()) return existing.get();
+        // Check if favorite already exists
+        FavoritesEntity existing = repo.findByUserAndPost(user, post);
+        if (existing != null) return existing;
 
-    FavoritesEntity fav = new FavoritesEntity(user, post);
-    return repo.save(fav);
-}
-
+        FavoritesEntity fav = new FavoritesEntity(user, post);
+        return repo.saveAndFlush(fav); // ensure DB insert immediately
+    }
 
     // --- Get all favorites ---
     public List<FavoritesEntity> getAllFavorites() {
@@ -49,6 +51,7 @@ public class FavoritesService {
     }
 
     // --- Delete by ID ---
+    @Transactional
     public boolean deleteFavorite(Long id) {
         if (repo.existsById(id)) {
             repo.deleteById(id);
@@ -57,12 +60,14 @@ public class FavoritesService {
         return false;
     }
 
-    // --- Delete by userId & postId ---
-    public boolean deleteFavorite(Long userId, Long postId) {
-        Optional<FavoritesEntity> fav = repo.findAll().stream()
-                .filter(f -> f.getUser().getUserId().equals(userId) && f.getPost().getPostId().equals(postId))
-                .findFirst();
-        fav.ifPresent(repo::delete);
-        return fav.isPresent();
+    // --- Delete by user & post ---
+    @Transactional
+    public boolean deleteFavorite(UserEntity user, PostEntity post) {
+        FavoritesEntity fav = repo.findByUserAndPost(user, post);
+        if (fav != null) {
+            repo.delete(fav);
+            return true;
+        }
+        return false;
     }
 }

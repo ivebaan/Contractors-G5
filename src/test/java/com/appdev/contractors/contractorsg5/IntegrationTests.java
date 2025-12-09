@@ -19,14 +19,19 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @Transactional
 public class IntegrationTests {
+
     @Autowired
     private CategoryService categoryService;
+
     @Autowired
     private CommunityService communityService;
+
     @Autowired
     private PostService postService;
+
     @Autowired
     private FavoritesService favoritesService;
+
     @Autowired
     private UserService userService;
 
@@ -50,20 +55,22 @@ public class IntegrationTests {
 
     @Test
     void testCreatePost() {
-        // Create user
+        // Create and save user
         UserEntity user = new UserEntity();
         user.setDisplayName("TestUser");
         user.setEmail("testuser@example.com");
         user.setPassword("password");
         UserEntity savedUser = userService.saveUser(user);
+        Assertions.assertNotNull(savedUser.getUserId());
 
-        // Create community
+        // Create and save community
         CommunityEntity community = new CommunityEntity();
         community.setName("PostCommunity");
         community.setDescription("For posts");
         CommunityEntity savedCommunity = communityService.saveCommunity(community);
+        Assertions.assertNotNull(savedCommunity.getId());
 
-        // Create post
+        // Create and save post
         PostEntity post = new PostEntity();
         post.setTitle("Test Post");
         post.setContent("Test Content");
@@ -77,20 +84,22 @@ public class IntegrationTests {
 
     @Test
     void testAddFavorite() {
-        // Create user
+        // Create and save user
         UserEntity user = new UserEntity();
         user.setDisplayName("FavUser");
         user.setEmail("favuser@example.com");
         user.setPassword("password");
         UserEntity savedUser = userService.saveUser(user);
+        Assertions.assertNotNull(savedUser.getUserId());
 
-        // Create community
+        // Create and save community
         CommunityEntity community = new CommunityEntity();
         community.setName("FavCommunity");
         community.setDescription("For favorites");
         CommunityEntity savedCommunity = communityService.saveCommunity(community);
+        Assertions.assertNotNull(savedCommunity.getId());
 
-        // Create post
+        // Create and save post
         PostEntity post = new PostEntity();
         post.setTitle("Fav Post");
         post.setContent("Fav Content");
@@ -99,10 +108,11 @@ public class IntegrationTests {
         post.setVotes(0);
         post.setIsFavorite(false);
         PostEntity savedPost = postService.savePost(post);
+        Assertions.assertNotNull(savedPost.getId());
 
         // Add favorite
-
-    FavoritesEntity savedFav = favoritesService.saveFavorite(savedUser.getUserId(), savedPost.getPostId());
-    Assertions.assertNotNull(savedFav.getFavoriteId());
+        FavoritesEntity savedFav = favoritesService.saveFavorite(savedUser, savedPost);
+        Assertions.assertNotNull(savedFav.getFavoriteId());
     }
 }
+    
