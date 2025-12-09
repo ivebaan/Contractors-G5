@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserCommunityService {
@@ -26,57 +25,42 @@ public class UserCommunityService {
     @Autowired
     private CommunityRepository communityRepository;
 
-    // Add a user to a community
+    // ✅ ADD USER TO COMMUNITY
     @Transactional
     public UserCommunityEntity addUserToCommunity(Long userId, Long communityId, LocalDateTime joinDate) {
-        // Find the user by ID
+
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Find the community by ID
         CommunityEntity community = communityRepository.findById(communityId)
                 .orElseThrow(() -> new RuntimeException("Community not found"));
 
-        // Create the UserCommunityEntity to represent the relationship
         UserCommunityEntity userCommunity = new UserCommunityEntity();
         userCommunity.setUser(user);
         userCommunity.setCommunity(community);
-        userCommunity.setJoinDate(joinDate != null ? joinDate : LocalDateTime.now());  // Set join date if provided, else set the current time
+        userCommunity.setJoinDate(joinDate != null ? joinDate : LocalDateTime.now());
 
-        // Save the entity to the repository
         return userCommunityRepository.save(userCommunity);
     }
 
-    // Remove a user from a community
+    // ✅ REMOVE USER FROM COMMUNITY
     @Transactional
     public void removeUserFromCommunity(Long userId, Long communityId) {
-        // Find the relationship in the repository
-        Optional<UserCommunityEntity> userCommunityOpt = userCommunityRepository.findAll()
-                .stream()
-                .filter(uc -> uc.getUser().getUserId().equals(userId) && uc.getCommunity().getCommunityId().equals(communityId))
-                .findFirst();
 
-        if (userCommunityOpt.isPresent()) {
-            // If found, delete the relationship
-            userCommunityRepository.delete(userCommunityOpt.get());
-        } else {
-            throw new RuntimeException("User is not part of the specified community");
-        }
+        UserCommunityEntity userCommunity = userCommunityRepository
+                .findByUser_UserIdAndCommunity_CommunityId(userId, communityId)
+                .orElseThrow(() -> new RuntimeException("User is not part of this community"));
+
+        userCommunityRepository.delete(userCommunity);
     }
 
-    // Get all communities a user has joined
+    // GET ALL COMMUNITIES OF A USER
     public List<UserCommunityEntity> getAllCommunitiesForUser(Long userId) {
-        return userCommunityRepository.findAll()
-                .stream()
-                .filter(uc -> uc.getUser().getUserId().equals(userId))
-                .toList();
+        return userCommunityRepository.findByUser_UserId(userId);
     }
 
-    // Get all users in a community
+    // GET ALL USERS IN A COMMUNITY
     public List<UserCommunityEntity> getAllUsersInCommunity(Long communityId) {
-        return userCommunityRepository.findAll()
-                .stream()
-                .filter(uc -> uc.getCommunity().getCommunityId().equals(communityId))
-                .toList();
+        return userCommunityRepository.findByCommunity_CommunityId(communityId);
     }
 }

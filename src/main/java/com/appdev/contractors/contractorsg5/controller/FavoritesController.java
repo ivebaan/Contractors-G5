@@ -17,8 +17,8 @@ public class FavoritesController {
     }
 
     @PostMapping
-    public FavoritesEntity addFavorite(@RequestBody FavoritesEntity fav) {
-        return service.saveFavorite(fav);
+    public FavoritesEntity addFavorite(@RequestBody FavoriteRequest request) {
+        return service.saveFavorite(request.getUserId(), request.getPostId());
     }
 
     @GetMapping
@@ -26,19 +26,19 @@ public class FavoritesController {
         return service.getAllFavorites();
     }
 
-    @GetMapping("/get/{id}")
-    public FavoritesEntity getFavoriteById(@PathVariable Long id) {
-        return service.getFavoriteById(id);
-    }
-
-    @PutMapping("/update/{id}")
-    public FavoritesEntity updateFavorite(@PathVariable Long id, @RequestBody FavoritesEntity fav) {
-        return service.updateFavorite(id, fav);
-    }
-
     @DeleteMapping("/delete/{id}")
     public String deleteFavorite(@PathVariable Long id) {
-        boolean deleted = service.deleteFavorite(id);
-        return deleted ? "Deleted" : "Not Found";
+        return service.deleteFavorite(id) ? "Deleted" : "Not Found";
+    }
+
+    // DTO for request
+    public static class FavoriteRequest {
+        private Long userId;
+        private Long postId;
+
+        public Long getUserId() { return userId; }
+        public void setUserId(Long userId) { this.userId = userId; }
+        public Long getPostId() { return postId; }
+        public void setPostId(Long postId) { this.postId = postId; }
     }
 }

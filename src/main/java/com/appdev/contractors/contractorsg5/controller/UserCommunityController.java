@@ -16,54 +16,49 @@ public class UserCommunityController {
     @Autowired
     private UserCommunityService userCommunityService;
 
-    // Endpoint to add a user to a community
-    @PostMapping("/create")
-    public ResponseEntity<String> addUserToCommunity(
+    // ADD USER TO COMMUNITY
+    @PostMapping
+    public ResponseEntity<UserCommunityEntity> addUserToCommunity(
             @RequestParam Long userId,
             @RequestParam Long communityId,
             @RequestParam(required = false) LocalDateTime joinDate) {
 
-        try {
-            userCommunityService.addUserToCommunity(userId, communityId, joinDate);
-            return ResponseEntity.ok("User added to the community successfully.");
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body("Error: " + e.getMessage());
-        }
+        UserCommunityEntity result = userCommunityService.addUserToCommunity(
+                userId,
+                communityId,
+                joinDate
+        );
+
+        return ResponseEntity.ok(result);
     }
 
-    // Endpoint to remove a user from a community
-    @DeleteMapping("/removeuser")
+    // REMOVE USER FROM COMMUNITY
+    @DeleteMapping
     public ResponseEntity<String> removeUserFromCommunity(
             @RequestParam Long userId,
             @RequestParam Long communityId) {
 
-        try {
-            userCommunityService.removeUserFromCommunity(userId, communityId);
-            return ResponseEntity.ok("User removed from the community successfully.");
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body("Error: " + e.getMessage());
-        }
+        userCommunityService.removeUserFromCommunity(userId, communityId);
+        return ResponseEntity.ok("User removed from the community successfully.");
     }
 
-    // Endpoint to get all communities a user has joined
-    @GetMapping("/user/{userId}/communities")
-    public ResponseEntity<List<UserCommunityEntity>> getAllCommunitiesForUser(@PathVariable Long userId) {
-        try {
-            List<UserCommunityEntity> communities = userCommunityService.getAllCommunitiesForUser(userId);
-            return ResponseEntity.ok(communities);
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body(null);
-        }
+    // GET ALL COMMUNITIES OF A USER
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<UserCommunityEntity>> getAllCommunitiesForUser(
+            @PathVariable Long userId) {
+
+        return ResponseEntity.ok(
+                userCommunityService.getAllCommunitiesForUser(userId)
+        );
     }
 
-    // Endpoint to get all users in a specific community
-    @GetMapping("/community/{communityId}/users")
-    public ResponseEntity<List<UserCommunityEntity>> getAllUsersInCommunity(@PathVariable Long communityId) {
-        try {
-            List<UserCommunityEntity> users = userCommunityService.getAllUsersInCommunity(communityId);
-            return ResponseEntity.ok(users);
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body(null);
-        }
+    // GET ALL USERS OF A COMMUNITY
+    @GetMapping("/community/{communityId}")
+    public ResponseEntity<List<UserCommunityEntity>> getAllUsersInCommunity(
+            @PathVariable Long communityId) {
+
+        return ResponseEntity.ok(
+                userCommunityService.getAllUsersInCommunity(communityId)
+        );
     }
 }

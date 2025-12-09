@@ -1,5 +1,6 @@
 package com.appdev.contractors.contractorsg5.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -13,15 +14,16 @@ public class FavoritesEntity {
 
     private LocalDateTime dateAdded;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({"favorites", "password"})
     private UserEntity user;
 
-    @ManyToOne
-    @JoinColumn(name = "post_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "post_id", nullable = false)
+    @JsonIgnoreProperties({"favorites"})
     private PostEntity post;
 
-    // --- Constructors ---
     public FavoritesEntity() {
         this.dateAdded = LocalDateTime.now();
     }
@@ -32,36 +34,15 @@ public class FavoritesEntity {
         this.dateAdded = LocalDateTime.now();
     }
 
-    // --- Getters and Setters ---
-    public Long getFavoriteId() {
-        return favoriteId;
-    }
+    public Long getFavoriteId() { return favoriteId; }
+    public void setFavoriteId(Long favoriteId) { this.favoriteId = favoriteId; }
 
-    public void setFavoriteId(Long favoriteId) {
-        this.favoriteId = favoriteId;
-    }
+    public LocalDateTime getDateAdded() { return dateAdded; }
+    public void setDateAdded(LocalDateTime dateAdded) { this.dateAdded = dateAdded; }
 
-    public LocalDateTime getDateAdded() {
-        return dateAdded;
-    }
+    public UserEntity getUser() { return user; }
+    public void setUser(UserEntity user) { this.user = user; }
 
-    public void setDateAdded(LocalDateTime dateAdded) {
-        this.dateAdded = dateAdded;
-    }
-
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
-
-    public PostEntity getPost() {
-        return post;
-    }
-
-    public void setPost(PostEntity post) {
-        this.post = post;
-    }
+    public PostEntity getPost() { return post; }
+    public void setPost(PostEntity post) { this.post = post; }
 }

@@ -1,29 +1,36 @@
 package com.appdev.contractors.contractorsg5.service;
 
 import com.appdev.contractors.contractorsg5.entity.UserEntity;
+import com.appdev.contractors.contractorsg5.entity.UserCommunityEntity;
 import com.appdev.contractors.contractorsg5.repository.UserRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.appdev.contractors.contractorsg5.entity.UserCommunityEntity;
-import java.util.List;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+
+import java.util.List;
 
 @Service
 public class UserService {
+    // For testing: save user without password encoding
+    public UserEntity saveUser(UserEntity user) {
+        return userRepository.save(user);
+    }
 
-    @Autowired
     private final UserRepository userRepository;
+    private final UserCommunityService userCommunityService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    private final UserCommunityService userCommunityService; 
- 
+    
     public UserService(UserRepository userRepository, UserCommunityService userCommunityService) {
         this.userRepository = userRepository;
         this.userCommunityService = userCommunityService;
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     // CREATE
     public UserEntity createUser(UserEntity user) {
+        // Hash the password before saving
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -43,7 +50,10 @@ public class UserService {
         return userRepository.findById(id).map(user -> {
             user.setDisplayName(newUserData.getDisplayName());
             user.setEmail(newUserData.getEmail());
-            user.setPassword(newUserData.getPassword());
+            // Only update password if not empty
+            if (newUserData.getPassword() != null && !newUserData.getPassword().isEmpty()) {
+                user.setPassword(passwordEncoder.encode(newUserData.getPassword()));
+            }
             return userRepository.save(user);
         }).orElse(null);
     }
@@ -53,17 +63,24 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    // Add a user to a community (delegating to UserCommunityService)
-    public void addUserToCommunity(Long userId, Long communityId) {
-        userCommunityService.addUserToCommunity(userId, communityId, null);  // You can add joinDate if needed
+    // LOGIN
+    public UserEntity findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
-    // Remove a user from a community
+    public boolean checkPassword(UserEntity user, String rawPassword) {
+        return passwordEncoder.matches(rawPassword, user.getPassword());
+    }
+
+    // COMMUNITY METHODS
+    public void addUserToCommunity(Long userId, Long communityId) {
+        userCommunityService.addUserToCommunity(userId, communityId, null);
+    }
+
     public void removeUserFromCommunity(Long userId, Long communityId) {
         userCommunityService.removeUserFromCommunity(userId, communityId);
     }
 
-    // Get all communities a user has joined
     public List<UserCommunityEntity> getAllCommunitiesForUser(Long userId) {
         return userCommunityService.getAllCommunitiesForUser(userId);
     }
