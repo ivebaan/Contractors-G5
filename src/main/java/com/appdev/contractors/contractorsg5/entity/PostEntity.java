@@ -26,6 +26,8 @@ public class PostEntity {
     @JoinColumn(name = "community_id", nullable = false)
     private CommunityEntity community;
 
+    
+
     // --- Constructors ---
     public PostEntity() {
     }
@@ -51,6 +53,8 @@ public class PostEntity {
     public Long getPostId() {
         return postId;
     }
+
+    public Long getId() { return postId; }
 
     public void setPostId(Long postId) {
         this.postId = postId;

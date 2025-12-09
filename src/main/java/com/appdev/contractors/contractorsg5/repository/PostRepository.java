@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostRepository extends JpaRepository<PostEntity, Long> {
-    
+	// Find posts by user
+	java.util.List<PostEntity> findByCreatedBy_UserId(Long userId);
 }

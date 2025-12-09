@@ -9,6 +9,7 @@ import com.appdev.contractors.contractorsg5.service.PostService;
 import com.appdev.contractors.contractorsg5.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -27,7 +28,6 @@ public class PostController {
     // --- CREATE POST ---
     @PostMapping
     public PostEntity createPost(@RequestBody PostCreateDTO dto) {
-
         UserEntity user = userService.getById(dto.getUserId());
         CommunityEntity community = communityService.getCommunityById(dto.getCommunityId());
 
@@ -37,7 +37,7 @@ public class PostController {
                 user,
                 community,
                 dto.getVotes(),
-                dto.getIsFavorites()
+                dto.getIsFavorite()
         );
 
         return postService.savePost(post);
@@ -46,7 +46,14 @@ public class PostController {
     // --- READ ALL POSTS ---
     @GetMapping("/getAll")
     public List<PostEntity> getAllPosts() {
+        // Returns posts WITHOUT nested mappings
         return postService.getAllPosts();
+    }
+
+    // --- READ POSTS BY USER ID ---
+    @GetMapping("/user/{userId}")
+    public List<PostEntity> getPostsByUserId(@PathVariable Long userId) {
+        return postService.getPostsByUserId(userId);
     }
 
     // --- READ POST BY ID ---
@@ -66,5 +73,15 @@ public class PostController {
     public String deletePost(@PathVariable Long id) {
         postService.deletePost(id);
         return "Post with ID " + id + " has been deleted.";
+    }
+
+    // --- VOTE POST ---
+    @PatchMapping("/{id}/vote")
+    public PostEntity votePost(
+            @PathVariable Long id,
+            @RequestParam Long userId,
+            @RequestParam String type
+    ) {
+        return postService.votePost(id, userId, type);
     }
 }

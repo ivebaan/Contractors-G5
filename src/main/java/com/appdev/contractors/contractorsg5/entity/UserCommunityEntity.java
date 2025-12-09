@@ -4,14 +4,14 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "userCommunity")
+@Table(name = "user_community")
 public class UserCommunityEntity {
 
     public UserCommunityEntity() {}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userCommunityid;
+    private Long userCommunityId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -24,18 +24,17 @@ public class UserCommunityEntity {
     private LocalDateTime joinDate;
 
     public UserCommunityEntity(UserEntity user, CommunityEntity community, LocalDateTime joinDate) {
-    this.user = user;
-    this.community = community;
-    this.joinDate = joinDate;
-}
-
-    // Getters and setters
-    public Long getCommunityId() {
-        return userCommunityid;
+        this.user = user;
+        this.community = community;
+        this.joinDate = joinDate;
     }
 
-    public void setCommunityId(Long userCommunityid) {
-        this.userCommunityid = userCommunityid;
+    public Long getUserCommunityId() {
+        return userCommunityId;
+    }
+
+    public void setUserCommunityId(Long userCommunityId) {
+        this.userCommunityId = userCommunityId;
     }
 
     public UserEntity getUser() {
@@ -61,5 +60,4 @@ public class UserCommunityEntity {
     public void setJoinDate(LocalDateTime joinDate) {
         this.joinDate = joinDate;
     }
-
 }

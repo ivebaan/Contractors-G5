@@ -5,12 +5,13 @@ import com.appdev.contractors.contractorsg5.entity.UserCommunityEntity;
 import com.appdev.contractors.contractorsg5.service.UserCommunityService;
 import com.appdev.contractors.contractorsg5.service.UserService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import java.time.LocalDateTime;
 import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-
+@CrossOrigin(origins = "http://localhost:5173") // Allow React frontend
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -18,7 +19,6 @@ public class UserController {
     private final UserService userService;
     private final UserCommunityService userCommunityService;
 
-    // Constructor injection for both services
     public UserController(UserService userService, UserCommunityService userCommunityService) {
         this.userService = userService;
         this.userCommunityService = userCommunityService;
@@ -29,13 +29,12 @@ public class UserController {
     public UserEntity createUser(@RequestBody UserEntity user) {
         return userService.createUser(user);
     }
-    
+
     // READ
     @GetMapping
     public List<UserEntity> getAllUsers() {
         return userService.getAllUsers();
     }
-    
 
     // UPDATE
     @PutMapping("/{id}")
@@ -50,15 +49,35 @@ public class UserController {
         return "User with ID " + id + " deleted successfully.";
     }
 
-    // --- NEW ENDPOINTS FOR USER-COMMUNITY RELATIONSHIP ---
+    // LOGIN
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        UserEntity user = userService.findByEmail(request.getEmail());
+        if (user != null && userService.checkPassword(user, request.getPassword())) {
+            // Return user without password
+            user.setPassword(null);
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+    }
 
-    // Add a user to a community
+    public static class LoginRequest {
+        private String email;
+        private String password;
+
+        public String getEmail() { return email; }
+        public void setEmail(String email) { this.email = email; }
+
+        public String getPassword() { return password; }
+        public void setPassword(String password) { this.password = password; }
+    }
+
+    // COMMUNITY METHODS
     @PostMapping("/{userId}/joinCommunity")
-    public String addUserToCommunity(
-            @PathVariable Long userId,
-            @RequestParam Long communityId,
-            @RequestParam(required = false) LocalDateTime joinDate) {
-
+    public String addUserToCommunity(@PathVariable Long userId,
+                                     @RequestParam Long communityId,
+                                     @RequestParam(required = false) LocalDateTime joinDate) {
         try {
             userCommunityService.addUserToCommunity(userId, communityId, joinDate);
             return "User successfully added to the community.";
@@ -67,12 +86,9 @@ public class UserController {
         }
     }
 
-    // Remove a user from a community
     @DeleteMapping("/{userId}/leaveCommunity")
-    public String removeUserFromCommunity(
-            @PathVariable Long userId,
-            @RequestParam Long communityId) {
-
+    public String removeUserFromCommunity(@PathVariable Long userId,
+                                          @RequestParam Long communityId) {
         try {
             userCommunityService.removeUserFromCommunity(userId, communityId);
             return "User successfully removed from the community.";
@@ -81,13 +97,12 @@ public class UserController {
         }
     }
 
-    // Get all communities a user has joined
     @GetMapping("/{userId}/communities")
     public List<UserCommunityEntity> getAllCommunitiesForUser(@PathVariable Long userId) {
         try {
             return userCommunityService.getAllCommunitiesForUser(userId);
         } catch (Exception e) {
-            return null;  // You can handle the error response as needed
+            return null;
         }
     }
 }

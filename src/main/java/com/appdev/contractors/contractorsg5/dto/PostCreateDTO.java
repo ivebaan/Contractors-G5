@@ -7,7 +7,7 @@ public class PostCreateDTO {
     private String title;
     private String content;
     private int votes;
-    private boolean isFavorites;
+    private boolean isFavorite;
 
     // --- Getters & Setters ---
     public Long getUserId() {
@@ -50,11 +50,11 @@ public class PostCreateDTO {
         this.votes = votes;
     }
 
-    public boolean getIsFavorites() {
-        return isFavorites;
-    }
+    public boolean getIsFavorite() {
+    return isFavorite;
+}
 
-    public void setIsFavorites(boolean isFavorites) {
-        this.isFavorites = isFavorites;
-    }
+    public void setIsFavorite(boolean isFavorite) {
+    this.isFavorite = isFavorite;
+}
 }
