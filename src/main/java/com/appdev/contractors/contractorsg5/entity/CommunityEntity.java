@@ -25,7 +25,7 @@ public class CommunityEntity {
 
     // Creator of the community
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "created_by")
+    @JoinColumn(name = "created_by", nullable = true)
     @JsonIgnoreProperties({"userCommunities", "comments", "password"})
     private UserEntity createdBy;
 
