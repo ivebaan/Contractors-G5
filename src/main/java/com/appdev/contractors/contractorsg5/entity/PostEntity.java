@@ -21,7 +21,7 @@ public class PostEntity {
 
 
     @ManyToOne
-    @JoinColumn(name = "created_by", nullable = false)
+    @JoinColumn(name = "created_by", nullable = true)
     private UserEntity createdBy;
 
     @ManyToOne

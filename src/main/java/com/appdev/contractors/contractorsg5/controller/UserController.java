@@ -1,5 +1,6 @@
 package com.appdev.contractors.contractorsg5.controller;
 
+import com.appdev.contractors.contractorsg5.dto.ApiResponse;
 import com.appdev.contractors.contractorsg5.entity.UserEntity;
 import com.appdev.contractors.contractorsg5.entity.UserCommunityEntity;
 import com.appdev.contractors.contractorsg5.service.UserCommunityService;
@@ -44,9 +45,14 @@ public class UserController {
 
     // DELETE
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return "User with ID " + id + " deleted successfully.";
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        try {
+            userService.deleteUser(id);
+            return ResponseEntity.ok().body(new ApiResponse("User deleted successfully"));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse("Error: " + e.getMessage()));
+        }
     }
 
     // LOGIN

@@ -3,8 +3,10 @@ package com.appdev.contractors.contractorsg5.service;
 import com.appdev.contractors.contractorsg5.entity.UserEntity;
 import com.appdev.contractors.contractorsg5.entity.UserCommunityEntity;
 import com.appdev.contractors.contractorsg5.repository.UserRepository;
+import com.appdev.contractors.contractorsg5.repository.CommunityRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -18,12 +20,15 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserCommunityService userCommunityService;
+    private final CommunityRepository communityRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
     
-    public UserService(UserRepository userRepository, UserCommunityService userCommunityService) {
+    public UserService(UserRepository userRepository, UserCommunityService userCommunityService, 
+                       CommunityRepository communityRepository) {
         this.userRepository = userRepository;
         this.userCommunityService = userCommunityService;
+        this.communityRepository = communityRepository;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -59,7 +64,17 @@ public class UserService {
     }
 
     // DELETE
+    @Transactional
     public void deleteUser(Long id) {
+        // Check if user exists
+        if (!userRepository.existsById(id)) {
+            throw new RuntimeException("User not found with ID: " + id);
+        }
+        
+        // First, set created_by to NULL in communities (communities persist after user deletion)
+        communityRepository.nullifyCreatedByForUser(id);
+        
+        // Then delete the user (cascade will delete posts, comments, favorites, votes, user_communities)
         userRepository.deleteById(id);
     }
 

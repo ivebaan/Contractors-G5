@@ -9,9 +9,11 @@ public class VoteEntity {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     @ManyToOne
+    @JoinColumn(name = "post_id")
     private PostEntity post;
 
     private String type; // "up" or "down"
